@@ -28,6 +28,13 @@ public class DungeonCompletedHandler(IDocumentSession session, ILogger<DungeonCo
         // 2. Process each quest for the player
         foreach (var quest in activeQuests)
         {
+            // Business Rule: If quest has a specific Criteria (DungeonId), it must match
+            if (!string.IsNullOrEmpty(quest.Criteria) && 
+                !string.Equals(quest.Criteria, message.DungeonId.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
             // Try to find existing player quest state
             // We search by PlayerId and QuestId. Use Query provided by Marten.
             var playerQuest = await session.Query<PlayerQuest>()

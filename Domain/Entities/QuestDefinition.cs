@@ -10,6 +10,7 @@ public class QuestDefinition
     public string? Description { get; set; }
     public QuestType Type { get; set; }
     public int TargetCount { get; set; }
+    public string? Criteria { get; set; } // Optional: Specific DungeonId or EnemyId
     public bool IsActive { get; set; }
     public DateTime? StartAt { get; set; }
     public DateTime? EndAt { get; set; }
