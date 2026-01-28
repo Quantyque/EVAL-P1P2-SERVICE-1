@@ -56,6 +56,13 @@ public static class DependencyInjection
                 .ToRabbitQueue("eval.ping.requested");
 
             opts.ListenToRabbitQueue("eval.pong.returned");
+
+            // Config for Quests
+            opts.PublishMessage<DungeonCompleted>()
+                .ToRabbitQueue("quests.dungeon-completed");
+
+            opts.ListenToRabbitQueue("quests.dungeon-completed")
+                .UseDurableInbox(); // Ensure Idempotency explicitly
         }
 
         // TODO: add saga persistence (e.g., Marten) when a store is chosen.

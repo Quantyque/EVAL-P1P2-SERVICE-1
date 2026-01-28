@@ -153,6 +153,9 @@ else
 app.UseCors("AllowAll");
 
 app.MapEvaluationEndpoints();
+app.MapQuestEndpoints();
+app.MapPlayerEndpoints();
+app.MapDebugEndpoints();
 
 app.MapHealthChecks("/health");
 
