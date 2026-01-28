@@ -30,6 +30,11 @@ public static class DependencyInjection
             services.AddMarten(opts =>
                 {
                     opts.Connection(connectionString);
+                    
+                    // Explicitly register types to ensure Marten knows about them
+                    opts.RegisterDocumentType<Domain.Entities.QuestDefinition>();
+                    opts.RegisterDocumentType<Domain.Entities.PlayerQuest>();
+
                     if (environment.IsDevelopment())
                     {
                         opts.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
@@ -37,6 +42,8 @@ public static class DependencyInjection
                 })
                 .IntegrateWithWolverine();
         }
+
+        services.AddHostedService<Infrastructure.Persistence.DataSeeder>();
 
         return services;
     }

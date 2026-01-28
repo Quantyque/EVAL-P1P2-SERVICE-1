@@ -53,7 +53,7 @@ public class DungeonCompletedHandler(IDocumentSession session, ILogger<DungeonCo
             // Store previous status for change logging if needed
             var previousStatus = playerQuest.Status;
             
-            playerQuest.AddProgress(1, quest.TargetCount);
+            playerQuest.AddProgress(1, quest.TargetCount, message.EventId);
             
             if (previousStatus != QuestStatus.Completed && playerQuest.Status == QuestStatus.Completed)
             {
@@ -61,8 +61,8 @@ public class DungeonCompletedHandler(IDocumentSession session, ILogger<DungeonCo
                 // Potential: Publish QuestCompleted event here
             }
 
-            // We update the document in the session
-            session.Update(playerQuest);
+            // We update the document in the session (Store acts as Upsert)
+            session.Store(playerQuest);
         }
 
         // Save all changes in one transaction
